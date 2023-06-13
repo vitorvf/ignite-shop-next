@@ -10,6 +10,9 @@ import {
 import logoImg from "../../assets/logo.svg";
 import { useShoppingCart } from "use-shopping-cart";
 import { Trash } from "phosphor-react";
+import { useCart } from "@/hooks/useCart";
+import { useContext } from "react";
+import { CartContext } from "@/contexts/CartContext";
 
 export function CardCart({
   name,
@@ -32,41 +35,19 @@ export function CardCart({
   };
 
   return (
-    <CoffeeCartCardContainer>
-      <div>
-        <img src={`/coffees/${coffee.photo}`} />
-        <div>
-          <RegularText color="subtitle">{coffee.name}</RegularText>
-          <ActionsContainer>
-            <QuantityInput
-              onIncrease={handleIncrease}
-              onDecrease={handleonDecrease}
-              quantity={coffee.quantity}
-              size="small"
-            />
-            <RemoveButton onClick={handleRemoveItem} type="button">
-              <Trash size={16} />
-              REMOVER
-            </RemoveButton>
-          </ActionsContainer>
-        </div>
-      </div>
-
-      <p>R$ {formattedPrice}</p>
-    </CoffeeCartCardContainer>
-    // <CardCartContainer>
-    //   <ImageCardCartContainer>
-    //     <Image src={imageUrl} alt="" width={94} height={90} />
-    //   </ImageCardCartContainer>
-    //   <CardCartContente>
-    //     <p>
-    //       {name} ({quantity})
-    //     </p>
-    //     <span>{price}</span>
-    //     <button onClick={handleRemoveFromCart} type="button">
-    //       Remover
-    //     </button>
-    //   </CardCartContente>
-    // </CardCartContainer>
+    <CardCartContainer>
+      <ImageCardCartContainer>
+        <Image src={imageUrl} alt="" width={94} height={90} />
+      </ImageCardCartContainer>
+      <CardCartContente>
+        <p>
+          {name} ({quantity})
+        </p>
+        <span>{price}</span>
+        <button onClick={handleRemoveFromCart} type="button">
+          Remover
+        </button>
+      </CardCartContente>
+    </CardCartContainer>
   );
 }

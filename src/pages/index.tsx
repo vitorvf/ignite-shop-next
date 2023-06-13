@@ -13,8 +13,9 @@ import Link from "next/link";
 import Head from "next/head";
 import { CartButton } from "@/styles/pages/home";
 import { useShoppingCart } from "use-shopping-cart";
-import { MouseEvent } from "react";
+import { MouseEvent, useContext } from "react";
 import { formatCurrency } from "@/utils/formateCurrency";
+import { CartContext } from "@/contexts/CartContext";
 
 interface HomeProps {
   products: {
