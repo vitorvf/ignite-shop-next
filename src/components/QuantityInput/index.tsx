@@ -3,8 +3,8 @@ import * as S from "./styles";
 
 interface QuantityInputProps {
   quantity: number;
-  // onIncrease: () => void;
-  // onDecrease: () => void;
+  onIncrease: () => void;
+  onDecrease: () => void;
 }
 
 export function QuantityInput({

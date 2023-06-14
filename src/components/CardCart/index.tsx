@@ -4,7 +4,7 @@ import logoImg from "../../assets/logo.svg";
 import { useShoppingCart } from "use-shopping-cart";
 import { Trash } from "phosphor-react";
 import { useCart } from "@/hooks/useCart";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "@/contexts/CartContext";
 import { QuantityInput } from "../QuantityInput";
 import * as S from "./styles";
@@ -17,33 +17,20 @@ export function CardCart({
   id,
   quantity,
 }) {
-  // const {
-  //   cartDetails,
-  //   cartCount,
-  //   totalPrice,
-  //   formattedTotalPrice,
-  //   removeItem,
-  // } = useShoppingCart();
-
-  // function handleIncrease() {
-  //   changeCartItemQuantity(+1);
-  // }
-
-  // function handleonDecrease() {
-  //   changeCartItemQuantity(-1);
-  // }
-
-  // {
-  //   cartItems.map((cartitem) => {
-  //     console.log(cartitem.name);
-  //   });
-  // }
+  const { cartItems, changeCartItemQuantity, incrementItem } =
+    useContext(CartContext);
 
   const handleRemoveFromCart = () => {
     removeProductCart(id);
   };
 
-  console.log(id);
+  function handleIncrease() {
+    changeCartItemQuantity(id, +1);
+  }
+
+  function handleDecrease() {
+    changeCartItemQuantity(id, -1);
+  }
 
   return (
     <S.CartItemContainer>
@@ -55,9 +42,9 @@ export function CardCart({
         <strong>{price}</strong>
         <div className="actionsContainer">
           <QuantityInput
-            quantity={1}
-            // onDecrease={handleDecrease}
-            // onIncrease={handleIncrease}
+            quantity={quantity}
+            onDecrease={handleDecrease}
+            onIncrease={handleIncrease}
           />
           <button onClick={handleRemoveFromCart} className="removeButton">
             Remover
@@ -65,19 +52,5 @@ export function CardCart({
         </div>
       </S.InfoContainer>
     </S.CartItemContainer>
-    // <CardCartContainer>
-    //   <ImageCardCartContainer>
-    //     <Image src={imageUrl} alt="" width={94} height={90} />
-    //   </ImageCardCartContainer>
-    //   <CardCartContente>
-    //     <p>
-    //       {name} ({quantity})
-    //     </p>
-    //     <span>{price}</span>
-    //     <button onClick={handleRemoveFromCart} type="button">
-    //       Remover
-    //     </button>
-    //   </CardCartContente>
-    // </CardCartContainer>
   );
 }

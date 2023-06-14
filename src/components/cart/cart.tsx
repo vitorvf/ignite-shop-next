@@ -2,7 +2,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import axios from "axios";
 import { X } from "phosphor-react";
 import { useContext, useState } from "react";
-import { formatCurrency } from "../../utils/formateCurrency";
 import { CardCart } from "../CardCart";
 import {
   ButtonClose,
@@ -13,7 +12,6 @@ import {
   CartPriceContent,
   CartQuantityContent,
 } from "./styles";
-import { useShoppingCart } from "use-shopping-cart";
 import { CartContext } from "@/contexts/CartContext";
 import { formatMoney } from "@/utils/formatMoney";
 
@@ -33,18 +31,7 @@ export function Cart() {
 
   const cartCount = cartItems.length;
 
-  // const {
-  //   addItem,
-  //   removeItem,
-  //   cartCount,
-  //   formattedTotalPrice,
-  //   totalPrice,
-  //   cartDetails,
-
-  //   clearCart,
-  // } = useShoppingCart();
-
-  const products = Object.keys(cartItems).map((item) => cartItems[item]);
+  // const products = Object.keys(cartItems).map((item) => cartItems[item]);
 
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false);
@@ -54,7 +41,7 @@ export function Cart() {
       setIsCreatingCheckoutSession(true);
 
       const response = await axios.post("/api/checkout", {
-        products: products,
+        products: cartItems,
       });
 
       const { checkoutUrl } = response.data;
@@ -66,7 +53,6 @@ export function Cart() {
     }
   }
 
-  console.log(cartItems);
   const formattedPrice = formatMoney(totalPrice);
 
   return (
@@ -78,7 +64,7 @@ export function Cart() {
         <Dialog.Title>Sacola de compras</Dialog.Title>
 
         <CartContent>
-          {products.length <= 0 && (
+          {cartItems.length <= 0 && (
             <p>Seu carrinho está sem produtos, vamos comprar algo novo!!</p>
           )}
 

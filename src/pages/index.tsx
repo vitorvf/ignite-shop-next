@@ -15,7 +15,7 @@ import { CartButton } from "@/styles/pages/home";
 import { useShoppingCart } from "use-shopping-cart";
 import { MouseEvent, useContext } from "react";
 import { formatCurrency } from "@/utils/formateCurrency";
-import { CartContext } from "@/contexts/CartContext";
+import { CartContext, IProduct } from "@/contexts/CartContext";
 
 interface HomeProps {
   products: {
@@ -27,49 +27,18 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  // const {
-  //   addItem,
-  //   removeItem,
-  //   cartCount,
-  //   formattedTotalPrice,
-  //   cartDetails,
-  //   totalPrice,
-  // } = useShoppingCart();
-
+  console.log(products);
   const { addToCart } = useContext(CartContext);
 
-  // Exemplo de adição de um item ao carrinho
-
-  // const handleAddItem = (products) => {
-  //   const item = {
-  //     id: products.id,
-  //     name: products.name,
-  //     price: products.price,
-  //     currency: "USD",
-  //     quantity: 1,
-  //   };
-  //   addItem(item);
-  // };
-
-  // const handleAddToCart = (event: MouseEvent<HTMLButtonElement>, product) => {
-  //   event.preventDefault();
-  //   addItem(product);
-  // };
-
-  function handleAddToCart(event: MouseEvent<HTMLButtonElement>, products) {
+  function handleAddToCart(
+    event: MouseEvent<HTMLButtonElement>,
+    products: IProduct,
+    quantity: number
+  ) {
     event.preventDefault();
-    addToCart(products);
+    addToCart(products, quantity);
   }
 
-  // const handleClearCart = (event: MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  //   clearCart();
-  // };
-
-  // Exemplo de remoção de um item do carrinho
-  // const handleRemoveItem = (item: any) => {
-  //   removeItem(item);
-  // };
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -101,16 +70,12 @@ export default function Home({ products }: HomeProps) {
                   </div>
 
                   <CartButton
-                    onClick={(event) => handleAddToCart(event, product)}
+                    onClick={(event) => handleAddToCart(event, products, 1)}
                   >
                     {" "}
                     {/* Adicione este botão */}
                     <Handbag size={24} weight="bold" />
                   </CartButton>
-
-                  {/* <button onClick={(event) => handleClearCart(event, product)}>
-                    Clear Cart
-                  </button> */}
                 </footer>
               </Product>
             </Link>
