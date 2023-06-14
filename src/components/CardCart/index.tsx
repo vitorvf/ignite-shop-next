@@ -9,16 +9,24 @@ import { CartContext } from "@/contexts/CartContext";
 import { QuantityInput } from "../QuantityInput";
 import * as S from "./styles";
 
+export interface Products {
+  id: string;
+  name: string;
+  imageUrl: string;
+  price: string;
+  quantity?: number;
+  removeProductCart: (id: string) => void; // Adicione o parâmetro 'id' aqui
+}
+
 export function CardCart({
   name,
   price,
   imageUrl,
   removeProductCart,
   id,
-  quantity,
-}) {
-  const { cartItems, changeCartItemQuantity, incrementItem } =
-    useContext(CartContext);
+  quantity = 0,
+}: Products) {
+  const { changeCartItemQuantity } = useContext(CartContext);
 
   const handleRemoveFromCart = () => {
     removeProductCart(id);

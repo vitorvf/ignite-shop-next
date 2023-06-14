@@ -3,7 +3,7 @@ import { useKeenSlider } from "keen-slider/react"; // import from 'keen-slider/r
 
 import Image from "next/image";
 import { HomeContainer, Product } from "./styles/pages/home";
-import { Bag, Handbag } from "phosphor-react";
+import { Handbag } from "phosphor-react";
 
 import "keen-slider/keen-slider.min.css";
 import { stripe } from "@/lib/stripe";
@@ -12,9 +12,7 @@ import Stripe from "stripe";
 import Link from "next/link";
 import Head from "next/head";
 import { CartButton } from "@/styles/pages/home";
-import { useShoppingCart } from "use-shopping-cart";
 import { MouseEvent, useContext } from "react";
-import { formatCurrency } from "@/utils/formateCurrency";
 import { CartContext, IProduct } from "@/contexts/CartContext";
 
 interface HomeProps {
@@ -22,7 +20,7 @@ interface HomeProps {
     id: string;
     name: string;
     imageUrl: string;
-    price: number;
+    price: string;
   }[];
 }
 
@@ -70,9 +68,8 @@ export default function Home({ products }: HomeProps) {
                   </div>
 
                   <CartButton
-                    onClick={(event) => handleAddToCart(event, products, 1)}
+                    onClick={(event) => handleAddToCart(event, product, 1)}
                   >
-                    {" "}
                     {/* Adicione este botão */}
                     <Handbag size={24} weight="bold" />
                   </CartButton>
@@ -97,11 +94,14 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(price.unit_amount / 100),
-      numberPrice: price.unit_amount / 100,
+      price: price.unit_amount
+        ? new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }).format(price.unit_amount / 100)
+        : "",
+
+      numberPrice: price.unit_amount ? price.unit_amount / 100 : 0,
       defaultPriceId: price.id,
     };
   });

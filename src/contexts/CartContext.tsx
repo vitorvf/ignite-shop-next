@@ -5,9 +5,9 @@ export interface IProduct {
   name: string;
   imageUrl: string;
   price: string;
-  numberPrice: number;
-  description: string;
-  defaultPriceId: string;
+  numberPrice?: number;
+  description?: string;
+  defaultPriceId?: string;
   quantity?: number;
 }
 
@@ -16,6 +16,9 @@ interface CartContextType {
   removeProductCart: (productId: string) => void;
   totalPrice: number;
   changeCartItemQuantity: (id: string, quantity: number) => void;
+
+  // removeProductCart: (productId: string) => void;
+  // itemProductDuplicated: CartItem[];
   cartItems: IProduct[];
 }
 
