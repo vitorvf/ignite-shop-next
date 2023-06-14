@@ -1,39 +1,35 @@
 import { styled } from "../../styles";
-
-export interface QuantityInputContainerProps {
-  size: "medium" | "small";
-}
-
 export const QuantityInputContainer = styled("div", {
-  flex: "1",
-  background: "$base-button",
+  flex: 1,
+  backgroundColor: "$gray700",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  gap: "4px",
-  borderRadius: "6px",
+  gap: "0.25rem",
+  borderRadius: 6,
+  padding: "0.5rem",
 
   input: {
     textAlign: "center",
     width: "100%",
     background: "none",
     border: "none",
-    color: "$base-title",
+    color: "$gray100",
 
     "&:focus": {
       outline: "none",
     },
   },
 
-  variants: {
-    size: {
-      medium: {
-        padding: "0.5rem",
-      },
-      small: {
-        padding: "0.3rem 0.5rem",
-      },
+  /* REMOVENDO ESPAÇO DE SETAS DO INPUT DE NUMBER */
+  "input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button":
+    {
+      "-webkit-appearance": "none",
+      margin: 0,
     },
+
+  'input[type="number"]': {
+    "-moz-appearance": "textfield",
   },
 });
 
@@ -42,14 +38,15 @@ export const IconWrapper = styled("button", {
   height: "0.875rem",
   border: "none",
   background: "none",
-  color: "$brand-purple",
+  color: "$green500",
   transition: "0.4s",
 
   "&:disabled": {
     opacity: 0.4,
+    cursor: "not-allowed",
   },
 
   "&:not(:disabled):hover": {
-    color: "$brand-purple-dark",
+    color: "$green300",
   },
-}).attrs({ type: "button" });
+});

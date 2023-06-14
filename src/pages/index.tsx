@@ -27,15 +27,16 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const {
-    addItem,
-    removeItem,
-    cartCount,
-    formattedTotalPrice,
-    cartDetails,
-    totalPrice,
-    clearCart,
-  } = useShoppingCart();
+  // const {
+  //   addItem,
+  //   removeItem,
+  //   cartCount,
+  //   formattedTotalPrice,
+  //   cartDetails,
+  //   totalPrice,
+  // } = useShoppingCart();
+
+  const { addToCart } = useContext(CartContext);
 
   // Exemplo de adição de um item ao carrinho
 
@@ -50,18 +51,20 @@ export default function Home({ products }: HomeProps) {
   //   addItem(item);
   // };
 
-  const handleAddToCart = (event: MouseEvent<HTMLButtonElement>, product) => {
+  // const handleAddToCart = (event: MouseEvent<HTMLButtonElement>, product) => {
+  //   event.preventDefault();
+  //   addItem(product);
+  // };
+
+  function handleAddToCart(event: MouseEvent<HTMLButtonElement>, products) {
     event.preventDefault();
-    addItem(product);
-  };
+    addToCart(products);
+  }
 
-  const handleRemoveFromCart = (productId) => {
-    removeItem(productId);
-  };
-
-  const handleClearCart = () => {
-    clearCart();
-  };
+  // const handleClearCart = (event: MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+  //   clearCart();
+  // };
 
   // Exemplo de remoção de um item do carrinho
   // const handleRemoveItem = (item: any) => {
@@ -94,7 +97,7 @@ export default function Home({ products }: HomeProps) {
                 <footer>
                   <div>
                     <strong>{product.name}</strong>
-                    <span>{formatCurrency.format(product.price / 100)}</span>
+                    <span>{product.price}</span>
                   </div>
 
                   <CartButton
@@ -105,7 +108,9 @@ export default function Home({ products }: HomeProps) {
                     <Handbag size={24} weight="bold" />
                   </CartButton>
 
-                  {/* <button onClick={handleClearCart}>Clear Cart</button> */}
+                  {/* <button onClick={(event) => handleClearCart(event, product)}>
+                    Clear Cart
+                  </button> */}
                 </footer>
               </Product>
             </Link>
@@ -127,7 +132,10 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount,
+      price: new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(price.unit_amount / 100),
       numberPrice: price.unit_amount / 100,
       defaultPriceId: price.id,
     };

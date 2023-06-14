@@ -28,12 +28,15 @@ import { ButtonCartContainer, HeaderContainer } from "./styles";
 import Image from "next/image";
 import { Cart } from "../cart/cart";
 import { useShoppingCart } from "use-shopping-cart";
+import { CartContext } from "@/contexts/CartContext";
 
 export function Header() {
   const { pathname } = useRouter();
-  const { cartCount } = useShoppingCart();
-
+  // const { cartCount } = useShoppingCart();
+  const { cartItems } = useContext(CartContext);
   // const showCartButton = pathname !== "/success";
+
+  const cartCount = cartItems.length;
 
   return (
     <HeaderContainer>

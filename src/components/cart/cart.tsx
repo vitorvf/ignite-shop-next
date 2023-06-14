@@ -14,6 +14,8 @@ import {
   CartQuantityContent,
 } from "./styles";
 import { useShoppingCart } from "use-shopping-cart";
+import { CartContext } from "@/contexts/CartContext";
+import { formatMoney } from "@/utils/formatMoney";
 
 export interface IProduct {
   id: string;
@@ -27,22 +29,22 @@ export interface IProduct {
 }
 
 export function Cart() {
-  const {
-    addItem,
-    removeItem,
-    cartCount,
-    formattedTotalPrice,
-    totalPrice,
-    cartDetails,
+  const { cartItems, removeProductCart, totalPrice } = useContext(CartContext);
 
-    clearCart,
-  } = useShoppingCart();
+  const cartCount = cartItems.length;
 
-  const handleRemoveFromCart = (productId) => {
-    removeItem(productId);
-  };
+  // const {
+  //   addItem,
+  //   removeItem,
+  //   cartCount,
+  //   formattedTotalPrice,
+  //   totalPrice,
+  //   cartDetails,
 
-  const products = Object.keys(cartDetails).map((item) => cartDetails[item]);
+  //   clearCart,
+  // } = useShoppingCart();
+
+  const products = Object.keys(cartItems).map((item) => cartItems[item]);
 
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false);
@@ -63,6 +65,10 @@ export function Cart() {
       alert("Falha ao redirecionar ao checkout!");
     }
   }
+
+  console.log(cartItems);
+  const formattedPrice = formatMoney(totalPrice);
+
   return (
     <Dialog.Portal>
       <CartContainer>
@@ -76,15 +82,15 @@ export function Cart() {
             <p>Seu carrinho está sem produtos, vamos comprar algo novo!!</p>
           )}
 
-          {Object.entries(cartDetails).map(([itemId, item]) => (
+          {Object.entries(cartItems).map(([itemId, item]) => (
             <CardCart
               key={itemId}
               name={item.name}
               price={item.price}
               imageUrl={item.imageUrl}
-              id={itemId}
+              id={item.id}
               quantity={item.quantity}
-              removeProductCart={handleRemoveFromCart}
+              removeProductCart={removeProductCart}
             />
           ))}
         </CartContent>
@@ -92,11 +98,11 @@ export function Cart() {
         <CartContentInfo>
           <CartQuantityContent>
             <p>Quantidade</p>
-            <span>{cartCount}</span>
+            <span>{cartCount} itens</span>
           </CartQuantityContent>
           <CartPriceContent>
             <p>Valor total</p>
-            <strong>{formattedTotalPrice}</strong>
+            <strong>R$ {formattedPrice}</strong>
           </CartPriceContent>
 
           <ButtonFinishCart onClick={handleTest} type="button">
