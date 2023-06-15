@@ -10,16 +10,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <CartContextProvider>
       {" "}
-      <CartProvider
-        cartMode="checkout-session"
-        stripe={process.env.STRIPE_PUBLIC_KEY}
-        currency="BRL"
-      >
-        <Container>
-          <Header />
-          <Component {...pageProps} />
-        </Container>
-      </CartProvider>
+      <Container>
+        <Header />
+        <Component {...pageProps} />
+      </Container>
     </CartContextProvider>
   );
 }

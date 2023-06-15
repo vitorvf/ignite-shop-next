@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 
 export interface IProduct {
   id: string;
@@ -16,9 +16,6 @@ interface CartContextType {
   removeProductCart: (productId: string) => void;
   totalPrice: number;
   changeCartItemQuantity: (id: string, quantity: number) => void;
-
-  // removeProductCart: (productId: string) => void;
-  // itemProductDuplicated: CartItem[];
   cartItems: IProduct[];
 }
 
@@ -33,7 +30,9 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
 
   //Valor total do Carrinho
   const totalPrice = cartItems.reduce((total, item) => {
-    return total + item.numberPrice * item.quantity;
+    const price = item.numberPrice ?? 0;
+    const quantity = item.quantity ?? 0;
+    return total + price * quantity;
   }, 0);
 
   //Adicionar Itens ao Carrinho com Quantidade
